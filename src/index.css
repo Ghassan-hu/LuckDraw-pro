@@ -79,6 +79,7 @@
 /* Interactive 3D enhancement */
 .interactive-3d {
   will-change: transform;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform-style: preserve-3d;
 }

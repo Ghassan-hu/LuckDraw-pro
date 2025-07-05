@@ -1,5 +1,7 @@
-import React, { useState, createContext, useContext, useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+
+const AppContext = React.createContext<any>(null);
 
 // Authentication Context
 interface AuthContextType {
@@ -9,7 +11,7 @@ interface AuthContextType {
   user: any;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -521,6 +523,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
             <input
               type="text"
               name="fullName"
+              placeholder="Enter your full name"
               value={formData.fullName}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -553,6 +556,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
+                  title="Upload profile picture"
                   className="w-full text-xs text-gray-500 file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                 />
                 <p className="text-xs text-gray-500 mt-1">Max size: 5MB. JPG, PNG, GIF</p>
@@ -566,6 +570,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
             <input
               type="email"
               name="email"
+              placeholder="Enter your email address"
               value={formData.email}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -584,6 +589,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
               value={formData.country}
               onChange={handleInputChange}
               onBlur={handleBlur}
+              title="Select your country"
               className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-xs sm:text-sm ${
                 errors.country ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -604,6 +610,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
             <input
               type="tel"
               name="phone"
+              placeholder="Enter your phone number"
               value={formData.phone}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -620,6 +627,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
             <input
               type="number"
               name="age"
+              placeholder="Enter your age (18+)"
               value={formData.age}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -637,6 +645,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
             <input
               type="password"
               name="password"
+              placeholder="Enter your password"
               value={formData.password}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -658,6 +667,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
             <input
               type="password"
               name="confirmPassword"
+              placeholder="Confirm your password"
               value={formData.confirmPassword}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -675,6 +685,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
               name="acceptTerms"
               checked={formData.acceptTerms}
               onChange={handleInputChange}
+              title="Accept Terms and Conditions"
               className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
               required
             />
@@ -1246,62 +1257,54 @@ const Footer = React.memo(() => {
   
   return (
     <>
-      <div className="w-full bg-gray-900 text-white py-6 sm:py-8 px-4 sm:px-6 border-t-2 border-yellow-500">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+      <div className="w-full bg-gray-900 text-white py-2 px-2 border-t border-yellow-500">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {/* Company Info */}
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-yellow-500 mb-3 sm:mb-4">LuckDraw-pro</h3>
-              <p className="text-gray-300 text-sm sm:text-base mb-3">
-                The most trusted monthly lottery platform with life-changing prizes.
-              </p>
-              <div className="flex space-x-3">
-                <span className="text-2xl">🍀</span>
-                <span className="text-2xl">💰</span>
-                <span className="text-2xl">🏆</span>
+              <h3 className="text-base font-bold text-yellow-500 mb-1">LuckDraw-pro</h3>
+              <p className="text-gray-300 text-xs mb-1">The most trusted monthly lottery platform.</p>
+              <div className="flex space-x-1">
+                <span className="text-lg">🍀</span>
+                <span className="text-lg">💰</span>
+                <span className="text-lg">🏆</span>
               </div>
             </div>
-            
             {/* Quick Links */}
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm sm:text-base text-gray-300">
+              <h4 className="text-xs font-semibold mb-1">Quick Links</h4>
+              <ul className="space-y-1 text-xs text-gray-300">
                 <li><button onClick={() => setShowHowToPlay(true)} className="hover:text-yellow-400 transition-colors text-left">How to Play</button></li>
                 <li><button onClick={() => setShowWinnersGallery(true)} className="hover:text-yellow-400 transition-colors text-left">Winners Gallery</button></li>
                 <li><button onClick={() => setShowPrizeStructure(true)} className="hover:text-yellow-400 transition-colors text-left">Prize Structure</button></li>
                 <li><button onClick={() => setShowFAQ(true)} className="hover:text-yellow-400 transition-colors text-left">FAQ</button></li>
               </ul>
             </div>
-            
             {/* Support */}
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Support</h4>
-              <ul className="space-y-2 text-sm sm:text-base text-gray-300">
+              <h4 className="text-xs font-semibold mb-1">Support</h4>
+              <ul className="space-y-1 text-xs text-gray-300">
                 <li><button onClick={() => setShowContact(true)} className="hover:text-yellow-400 transition-colors text-left">Contact Us</button></li>
                 <li><button onClick={() => setShowHelpCenter(true)} className="hover:text-yellow-400 transition-colors text-left">Help Center</button></li>
                 <li><button onClick={() => setShowEmailSupport(true)} className="hover:text-yellow-400 transition-colors text-left">Email Support</button></li>
               </ul>
             </div>
-            
             {/* Legal */}
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm sm:text-base text-gray-300">
+              <h4 className="text-xs font-semibold mb-1">Legal</h4>
+              <ul className="space-y-1 text-xs text-gray-300">
                 <li><button onClick={() => setShowPrivacy(true)} className="hover:text-yellow-400 transition-colors text-left">Privacy Policy</button></li>
                 <li><button onClick={() => setShowTerms(true)} className="hover:text-yellow-400 transition-colors text-left">Terms & Conditions</button></li>
                 <li><button onClick={() => setShowResponsibleGaming(true)} className="hover:text-yellow-400 transition-colors text-left">Responsible Gaming</button></li>
               </ul>
             </div>
           </div>
-          
           {/* Bottom Section */}
-          <div className="border-t border-gray-700 mt-6 sm:mt-8 pt-4 sm:pt-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
-              <p className="text-sm text-gray-400">
-                © {currentYear} LuckDraw-pro. All rights reserved.
-              </p>
-              <div className="flex space-x-4 text-sm text-gray-400">
-                <span>🔒 SSL Secured</span>
+          <div className="border-t border-gray-800 mt-2 pt-2">
+            <div className="flex flex-col sm:flex-row justify-between items-center space-y-1 sm:space-y-0">
+              <p className="text-xs text-gray-400">© {currentYear} LuckDraw-pro. All rights reserved.</p>
+              <div className="flex space-x-2 text-xs text-gray-400">
+                <span>🔒 SSL</span>
                 <span>✅ Licensed</span>
                 <span>🛡️ Protected</span>
               </div>
@@ -1309,7 +1312,6 @@ const Footer = React.memo(() => {
           </div>
         </div>
       </div>
-
       {/* Modals */}
       <PrivacyPolicyModal open={showPrivacy} onClose={() => setShowPrivacy(false)} />
       <TermsConditionsModal open={showTerms} onClose={() => setShowTerms(false)} />
@@ -1378,10 +1380,13 @@ const LandingPage = React.memo(() => {
 const LotteryPage = React.memo(() => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const appCtx = React.useContext(AppContext);
+  const { tickets, setTickets } = appCtx || { tickets: [], setTickets: () => {} };
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [showTicketCheck, setShowTicketCheck] = useState(false);
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [newTicket, setNewTicket] = useState<any>(null);
   const [profile, setProfile] = useState({
     name: user?.name || 'User',
     email: user?.email || 'user@email.com',
@@ -1427,18 +1432,10 @@ const LotteryPage = React.memo(() => {
   }, [logout, navigate]);
 
   const handleCheckTicket = useCallback(() => {
-    setShowTicketCheck(true);
     setTimeout(() => {
       ticketCheckRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100); // delay to ensure section is rendered
   }, []);
-
-  const countdownItems = useMemo(() => [
-    { label: 'Days', value: countdown.days },
-    { label: 'Hours', value: countdown.hours },
-    { label: 'Minutes', value: countdown.minutes },
-    { label: 'Seconds', value: countdown.seconds }
-  ], [countdown]);
 
   // دالة تتحقق إذا الوقت الحالي يسمح بفحص الكرت
   const isCheckTime = () => {
@@ -1446,6 +1443,27 @@ const LotteryPage = React.memo(() => {
     const isFirstDay = now.getDate() === 1;
     const hour = now.getHours();
     return isFirstDay && hour >= 8 && hour < 24;
+  };
+
+  const handleBuyTicket = () => {
+    const newTicketData = {
+      id: Math.random().toString().slice(2, 14),
+      status: 'Pending',
+      date: new Date().toISOString(),
+      purchaseDate: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }),
+      nextDraw: getNextDrawDate().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long', 
+        day: 'numeric'
+      })
+    };
+    setTickets([...tickets, newTicketData]);
+    setNewTicket(newTicketData);
+    setShowPurchaseModal(true);
   };
 
   return (
@@ -1552,7 +1570,10 @@ const LotteryPage = React.memo(() => {
                 </div>
               </div>
             </div>
-            <button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200">
+            <button 
+              onClick={handleBuyTicket}
+              className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200"
+            >
               Buy Tickets Now
             </button>
           </div>
@@ -1641,9 +1662,86 @@ const LotteryPage = React.memo(() => {
       </main>
 
       <Footer />
+
+      {/* Purchase Confirmation Modal */}
+      {showPurchaseModal && (
+        <PurchaseConfirmationModal
+          open={showPurchaseModal}
+          onClose={() => setShowPurchaseModal(false)}
+          ticket={newTicket}
+          onGoToMyTickets={() => {
+            setShowPurchaseModal(false);
+            navigate('/my-cards');
+          }}
+        />
+      )}
     </div>
   );
 });
+
+// Purchase Confirmation Modal
+const PurchaseConfirmationModal = ({ open, onClose, ticket, onGoToMyTickets }: { 
+  open: boolean; 
+  onClose: () => void; 
+  ticket: any; 
+  onGoToMyTickets: () => void; 
+}) => {
+  if (!open || !ticket) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+      <div className="bg-white rounded-xl p-6 w-full max-w-sm shadow-2xl relative mx-4">
+        <button 
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg" 
+          onClick={onClose}
+        >
+          ✕
+        </button>
+        
+        <div className="text-center">
+          <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          
+          <h2 className="text-xl font-bold mb-2 text-gray-800">
+            🎉 Purchase Successful!
+          </h2>
+          
+          <p className="text-gray-600 mb-4">
+            Your card has been purchased successfully!
+          </p>
+          
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <h3 className="font-semibold text-yellow-800 mb-2">Ticket Details:</h3>
+            <div className="text-sm text-gray-700 space-y-1">
+              <div>Ticket ID: <span className="font-mono font-bold">•••• {ticket.id.slice(-4)}</span></div>
+              <div>Purchase Date: <span className="font-semibold">{ticket.purchaseDate}</span></div>
+              <div>Next Draw: <span className="font-semibold">{ticket.nextDraw}</span></div>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            <button
+              onClick={onGoToMyTickets}
+              className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200"
+            >
+              Go to My Tickets
+            </button>
+            
+            <button
+              onClick={onClose}
+              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-lg transition-all duration-200"
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // أضف مكون نافذة البروفايل في نفس الملف
 const ProfileModal = ({ open, onClose, profile, setProfile }: { open: boolean; onClose: () => void; profile: any; setProfile: (p: any) => void }) => {
@@ -1656,7 +1754,8 @@ const ProfileModal = ({ open, onClose, profile, setProfile }: { open: boolean; o
   }, [profile, open]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, files } = e.target;
+    const files = (e.target as HTMLInputElement).files;
+    const { name, value } = e.target;
     if (name === 'image' && files && files[0]) {
       const file = files[0];
       setForm((prev) => ({ ...prev, image: file }));
@@ -1732,6 +1831,7 @@ const ProfileModal = ({ open, onClose, profile, setProfile }: { open: boolean; o
             name="country"
             value={form.country || ''}
             onChange={handleChange}
+            title="Select your country"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent text-sm bg-white"
           >
             <option value="">Select Country</option>
@@ -1765,13 +1865,6 @@ const ProfileModal = ({ open, onClose, profile, setProfile }: { open: boolean; o
 };
 
 // MyCardsPage - صفحة بطاقاتي
-const mockCards = [
-  { id: '1234567890', status: 'Pending', date: '2024-06-01T10:15:00Z' },
-  { id: '9876543210', status: 'Winner', date: '2024-06-01T10:20:00Z' },
-  { id: '555566667777', status: 'Lost', date: '2024-06-01T10:25:00Z' },
-  { id: '111122223333', status: 'Pending', date: '2024-06-01T10:30:00Z' },
-];
-
 const statusColors: Record<string, string> = {
   Pending: 'bg-yellow-100 text-yellow-800',
   Winner: 'bg-green-100 text-green-800',
@@ -1779,9 +1872,28 @@ const statusColors: Record<string, string> = {
 };
 
 const MyCardsPage = () => {
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const appCtx = React.useContext(AppContext);
+  const { tickets } = appCtx || { tickets: [] };
   const [showToast, setShowToast] = useState(false);
-  
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profile, setProfile] = useState({
+    name: user?.name || 'User',
+    email: user?.email || 'user@email.com',
+    age: user?.age || '',
+    image: user?.image || null,
+    phone: user?.phone || '',
+    country: user?.country || ''
+  });
+  const profileImageUrl = profile.image ? profile.image : `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=FFD700&color=fff&size=64`;
+
+  const handleLogout = useCallback(() => {
+    logout();
+    navigate('/');
+  }, [logout, navigate]);
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
       setShowToast(true);
@@ -1792,7 +1904,60 @@ const MyCardsPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-yellow-50 via-white to-yellow-100 py-8 px-2">
+    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #FFF8DC 0%, #FFE4B5 50%, #FFDAB9 100%)' }}>
+      {/* Header with Profile */}
+      <header className="w-full flex justify-between items-center py-3 sm:py-4 px-4 sm:px-6 border-b-2 border-yellow-500 shadow-sm relative">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">LuckDraw-pro</h1>
+        <div className="flex items-center space-x-4">
+          <button 
+            onClick={() => navigate('/lottery')}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-xs sm:text-sm transition-colors"
+          >
+            Home
+          </button>
+          {/* Profile Dropdown */}
+          <div className="relative">
+            <button
+              className="flex items-center space-x-2 focus:outline-none"
+              onClick={() => setShowProfileMenu((v) => !v)}
+            >
+              <img
+                src={profileImageUrl}
+                alt="Profile"
+                className="w-8 h-8 rounded-full border-2 border-yellow-400 object-cover"
+              />
+              <span className="hidden sm:inline text-sm font-semibold text-gray-800">{profile.name}</span>
+              <svg className="w-4 h-4 ml-1 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
+                <button
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 rounded-t-lg"
+                  onClick={() => { setShowProfileModal(true); setShowProfileMenu(false); }}
+                >
+                  Edit Profile
+                </button>
+                <button
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 rounded-b-lg text-red-600"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+      {/* Profile Modal */}
+      {showProfileModal && (
+        <ProfileModal
+          open={showProfileModal}
+          onClose={() => setShowProfileModal(false)}
+          profile={profile}
+          setProfile={setProfile}
+        />
+      )}
+      {/* Toast Notification */}
       {showToast && (
         <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
           <div className="bg-yellow-500 text-white font-bold px-6 py-3 rounded-xl shadow-2xl text-lg animate-fade-in-out">
@@ -1800,41 +1965,39 @@ const MyCardsPage = () => {
           </div>
         </div>
       )}
-      <div className="w-full max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Cards</h1>
-          <button
-            onClick={() => navigate('/lottery')}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg shadow-md text-sm sm:text-base"
-          >
-            Home
-          </button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {mockCards.map(card => (
-            <div key={card.id} className="bg-white/90 rounded-xl shadow-lg border border-yellow-100 p-5 flex flex-col items-start">
-              <div className="flex items-center justify-between w-full mb-2">
-                <div className="flex items-center">
-                  <span className="text-lg font-bold text-gray-800 mr-2">Card</span>
-                  <span className="text-base font-mono text-gray-600">•••• {card.id.slice(-4)}</span>
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col items-center justify-start py-8 px-2">
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Cards</h1>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {tickets.map(card => (
+              <div key={card.id} className="bg-white/90 rounded-xl shadow-lg border border-yellow-100 p-5 flex flex-col items-start">
+                <div className="flex items-center justify-between w-full mb-2">
+                  <div className="flex items-center">
+                    <span className="text-lg font-bold text-gray-800 mr-2">Card</span>
+                    <span className="text-base font-mono text-gray-600">•••• {card.id.slice(-4)}</span>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(card.id)}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-600 p-1 rounded text-xs transition-colors"
+                    title="Copy full card ID"
+                  >
+                    📋
+                  </button>
                 </div>
-                <button
-                  onClick={() => copyToClipboard(card.id)}
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-600 p-1 rounded text-xs transition-colors"
-                  title="Copy full card ID"
-                >
-                  📋
-                </button>
+                <div className={`px-3 py-1 rounded-full text-xs font-semibold mb-2 ${statusColors[card.status]}`}>{card.status === 'Pending' ? 'Waiting for Draw' : card.status === 'Winner' ? 'Winner!' : 'Not Winner'}</div>
+                <div className="text-xs text-gray-500">Purchased: {new Date(card.date).toLocaleString()}</div>
               </div>
-              <div className={`px-3 py-1 rounded-full text-xs font-semibold mb-2 ${statusColors[card.status]}`}>{card.status === 'Pending' ? 'Waiting for Draw' : card.status === 'Winner' ? 'Winner!' : 'Not Winner'}</div>
-              <div className="text-xs text-gray-500">Purchased: {new Date(card.date).toLocaleString()}</div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {tickets.length === 0 && (
+            <div className="text-center text-gray-500 mt-10">You have no cards yet.</div>
+          )}
         </div>
-        {mockCards.length === 0 && (
-          <div className="text-center text-gray-500 mt-10">You have no cards yet.</div>
-        )}
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };
@@ -1843,6 +2006,7 @@ const MyCardsPage = () => {
 const App = React.memo(() => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [tickets, setTickets] = useState<any[]>([]);
 
   const login = useCallback((userData: any) => {
     setUser(userData);
@@ -1861,16 +2025,23 @@ const App = React.memo(() => {
     user
   }), [isAuthenticated, login, logout, user]);
 
+  const appContextValue = useMemo(() => ({
+    tickets,
+    setTickets
+  }), [tickets, setTickets]);
+
   return (
     <AuthContext.Provider value={authValue}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/lottery" element={<LotteryPage />} />
-          <Route path="/my-cards" element={<MyCardsPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
+      <AppContext.Provider value={appContextValue}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/lottery" element={<LotteryPage />} />
+            <Route path="/my-cards" element={<MyCardsPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AppContext.Provider>
     </AuthContext.Provider>
   );
 });
