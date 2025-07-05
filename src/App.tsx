@@ -255,7 +255,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
   // Regex patterns
   const patterns = {
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    phone: /^[\+]?[1-9][\d]{0,15}$/,
+    phone: /^[+]?[1-9][\d]{0,15}$/,
     password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
     fullName: /^[a-zA-Z\s]{2,50}$/
   };
@@ -510,7 +510,7 @@ function SignUpModal({ open, onClose, onSuccess }: ModalProps) {
               required
             />
             <label className="ml-2 block text-xs text-gray-700">
-              I accept the <a href="#" className="text-yellow-600 hover:underline">Privacy Policy</a> and <a href="#" className="text-yellow-600 hover:underline">Terms & Conditions</a>
+              I accept the <button type="button" className="text-yellow-600 hover:underline bg-transparent border-none cursor-pointer">Privacy Policy</button> and <button type="button" className="text-yellow-600 hover:underline bg-transparent border-none cursor-pointer">Terms & Conditions</button>
             </label>
           </div>
 
@@ -785,15 +785,6 @@ function LotteryPage() {
       setCheckResult('Please enter a ticket number');
     }
   };
-
-  // Static winners data
-  const winners = [
-    { name: "Sarah Johnson", prize: "$50,000", country: "United States", avatar: "https://ui-avatars.com/api/?name=Sarah+Johnson&background=FFD700&color=fff&size=64" },
-    { name: "Ahmed Hassan", prize: "$25,000", country: "Egypt", avatar: "https://ui-avatars.com/api/?name=Ahmed+Hassan&background=FFD700&color=fff&size=64" },
-    { name: "Maria Garcia", prize: "$15,000", country: "Spain", avatar: "https://ui-avatars.com/api/?name=Maria+Garcia&background=FFD700&color=fff&size=64" },
-    { name: "David Chen", prize: "$10,000", country: "Canada", avatar: "https://ui-avatars.com/api/?name=David+Chen&background=FFD700&color=fff&size=64" },
-    { name: "Fatima Al-Zahra", prize: "$5,000", country: "Saudi Arabia", avatar: "https://ui-avatars.com/api/?name=Fatima+Al-Zahra&background=FFD700&color=fff&size=64" }
-  ];
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #FFF8DC 0%, #FFE4B5 50%, #FFDAB9 100%)' }}>
