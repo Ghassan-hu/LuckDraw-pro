@@ -1,3 +1,10 @@
 # https://www.robotstxt.org/robotstxt.html
+# Allow all crawlers
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap location
+Sitemap: https://luckdraw-pro.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
