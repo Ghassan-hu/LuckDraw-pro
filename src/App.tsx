@@ -749,9 +749,9 @@ function App() {
         <SignUpModal open={showSignUp} onClose={() => setShowSignUp(false)} />
         <footer className="flex flex-col gap-3 px-2 py-4 text-center @container">
           <div className="flex flex-wrap items-center justify-center gap-3 @[480px]:flex-row @[480px]:justify-around">
-            <a className="text-[#9e8747] text-sm font-normal leading-normal min-w-24" href="javascript:void(0)" onClick={e => {e.preventDefault(); setShowAbout(true);}}>About Us</a>
-            <a className="text-[#9e8747] text-sm font-normal leading-normal min-w-24" href="javascript:void(0)" onClick={e => {e.preventDefault(); setShowContact(true);}}>Contact</a>
-            <a className="text-[#9e8747] text-sm font-normal leading-normal min-w-24" href="javascript:void(0)" onClick={e => {e.preventDefault(); setShowTerms(true);}}>Terms of Service</a>
+            <button className="text-[#9e8747] text-sm font-normal leading-normal min-w-24 bg-transparent border-none cursor-pointer hover:underline" onClick={() => setShowAbout(true)}>About Us</button>
+            <button className="text-[#9e8747] text-sm font-normal leading-normal min-w-24 bg-transparent border-none cursor-pointer hover:underline" onClick={() => setShowContact(true)}>Contact</button>
+            <button className="text-[#9e8747] text-sm font-normal leading-normal min-w-24 bg-transparent border-none cursor-pointer hover:underline" onClick={() => setShowTerms(true)}>Terms of Service</button>
           </div>
           <div className="flex flex-wrap justify-center gap-2 mt-2">
             <a href="https://twitter.com/">
